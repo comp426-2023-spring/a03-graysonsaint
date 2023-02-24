@@ -33,3 +33,14 @@ if (args.r || args.rules) {
     console.log(rules);
     process.exit(0);
 }
+
+const shot = args._[0];
+if (!shot) {
+    console.log("no shot");
+} else {
+    try {
+        console.log(`shot: ${shot}`);
+    } catch (OUT_OF_RANGE_ERROR) {
+        console.log("out of range error");
+    }
+}
