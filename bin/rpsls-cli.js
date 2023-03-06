@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+import { rpsls } from "../lib/rpsls.js";
 import minimist from "minimist";
 
 const args = minimist(process.argv.slice(2));
@@ -15,7 +15,8 @@ Examples:
   node-rpsls        Return JSON with single player RPSLS result.
                     e.g. {"player":"rock"}
   node-rpsls rock   Return JSON with results for RPSLS played against a simulated opponent.
-                    e.g {"player":"rock","opponent":"Spock","result":"lose"}`;
+                    e.g {"player":"rock","opponent":"Spock","result":"lose"}
+`;
 
 let rules = 
 `Rules for the Lizard-Spock Espansion of Rock Paper Scissors:
@@ -29,7 +30,8 @@ let rules =
   - Lizard EATS Paper
   - Paper DISPROVES Spock
   - Spock VAPORIZES Rock
-  - Rock CRUSHES Scissors`;
+  - Rock CRUSHES Scissors
+`;
 
 if (args.h || args.help) {
     console.log(help);
@@ -41,13 +43,10 @@ if (args.r || args.rules) {
     process.exit(0);
 }
 
-const shot = args._[0];
-if (!shot) {
-    console.log("no shot");
-} else {
-    try {
-        console.log(`shot: ${shot}`);
-    } catch (OUT_OF_RANGE_ERROR) {
-        console.log("out of range error");
-    }
+try {
+    console.log(JSON.stringify(rpsls(args._[0])));
+} catch (error) {
+    console.error('Out of range');
+    console.log(rules);
+    process.exit(1);
 }
